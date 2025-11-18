@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:home_widget/home_widget.dart';
 
@@ -24,6 +26,17 @@ class _MainAppState extends State<MainApp> {
     super.initState();
 
     HomeWidget.setAppGroupId(appGroupId);
+    HomeWidget.widgetClicked.listen((Uri? uri) {
+      _counter++;
+      setState(() {
+        _message = 'Widget clicked $_counter times';
+      });
+      if (uri != null) {
+        log('Widget clicked with URI: $uri');
+      } else {
+        log(" Widget clicked! uti null");
+      }
+    });
   }
 
   void _incrementCounter() async {

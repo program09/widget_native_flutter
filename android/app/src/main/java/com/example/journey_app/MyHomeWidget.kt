@@ -4,6 +4,7 @@ import android.appwidget.AppWidgetManager
 import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.widget.RemoteViews
+import es.antonborri.home_widget.HomeWidgetLaunchIntent
 
 import es.antonborri.home_widget.HomeWidgetPlugin
 /**
@@ -23,6 +24,16 @@ class MyHomeWidget : AppWidgetProvider() {
                 val text = widgetData.getString("widgetDataKey", null);
                 setTextViewText(R.id.text_id, text ?: "NO texto");
             }
+
+            // Set up click intent - THIS IS CRUCIAL FOR CLICKS
+            val intent = HomeWidgetLaunchIntent.getActivity(
+                context,
+                MainActivity::class.java,
+                uri = android.net.Uri.parse("homeWidget://click")
+            )
+
+            // Make the entire widget clickable
+            views.setOnClickPendingIntent(android.R.id.background, intent)
 
             appWidgetManager.updateAppWidget(appWidgetId, views);
             //updateAppWidget(context, appWidgetManager, appWidgetId)
